@@ -24,8 +24,10 @@ RUN set -xe \
 # Build binaries
 WORKDIR /app/llama.cpp
 RUN set -xe \
- && cmake -B build -DGGML_RPC=ON \
- && cmake --build build --config Release -j$(nproc)
+  && cmake -B build -DGGML_RPC=ON \
+    -DCMAKE_CXX_FLAGS="-mcpu=native" \
+    -DCMAKE_C_FLAGS="-mcpu=native" \
+  && cmake --build build --config Release -j$(nproc)
 
 RUN ls -la ggml/src/ggml-rpc
 
